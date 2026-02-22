@@ -71,7 +71,7 @@ export default function Register() {
           <div className="form-grid">
             <div className="form-row">
               <label className="form-label">Full Name <span className="required">*</span></label>
-              <input value={name} onChange={e=>setName(e.target.value)} className="main-input" placeholder="e.g. Jane Doe" required />
+              <input value={name} onChange={e=>setName(e.target.value)} className="main-input" placeholder="e.g. Krishnam Agrawal" required />
             </div>
 
             <div className="form-row">
