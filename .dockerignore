@@ -1,0 +1,12 @@
+node_modules
+build
+.env
+.git
+dist
+npm-debug.log
+yarn-error.log
+.DS_Store
+coverage
+.idea
+.vscode
+/.firebase
