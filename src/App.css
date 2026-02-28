@@ -70,11 +70,27 @@ body {
 }
 
 .scan-btn {
-  background: linear-gradient(90deg,#43e97b,#38f9d7);
+  background: linear-gradient(135deg,#43e97b,#38f9d7);
   width: 320px;
   border-radius: 30px;
   font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   margin-top: 40px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(67, 233, 123, 0.35), 0 6px 16px rgba(56, 249, 215, 0.25);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scan-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(67, 233, 123, 0.45), 0 8px 24px rgba(56, 249, 215, 0.35);
+}
+
+.scan-btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(67, 233, 123, 0.35);
 }
 
 /* Floating Action Button (FAB) style for Scan — mobile-first */

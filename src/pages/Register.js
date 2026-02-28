@@ -13,6 +13,7 @@ function maskNumber(num) {
 export default function Register() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [emergency, setEmergency] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -33,11 +34,16 @@ export default function Register() {
     const users = JSON.parse(localStorage.getItem("dc_users") || "[]");
     const id = Date.now().toString(36) + Math.random().toString(36).slice(2,8);
     const uuid = "dc-" + id;
-    const user = { id, name, phone, emergency, passwordHash: hash, allowEmergency, uuid };
+    const user = { id, name, phone, email, emergency, passwordHash: hash, allowEmergency, uuid };
     users.push(user);
     localStorage.setItem("dc_users", JSON.stringify(users));
     localStorage.setItem("dc_current", id);
     setRegisteredId(id);
+    
+    // Redirect to profile page after 1 second
+    setTimeout(() => {
+      navigate('/profile');
+    }, 1000);
   }
 
   function downloadQR(size = 400) {
@@ -90,6 +96,11 @@ export default function Register() {
                 <input type="checkbox" checked={allowEmergency} onChange={e=>setAllowEmergency(e.target.checked)} />
                 <div style={{ color: '#cfe6ff' }}>Allow emergency contact call</div>
               </div>
+            </div>
+
+            <div className="form-row">
+              <label className="form-label">Email</label>
+              <input type="email" value={email} onChange={e=>setEmail(e.target.value)} className="main-input" placeholder="Optional — your email address" />
             </div>
 
             <div className="form-row">
