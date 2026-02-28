@@ -27,11 +27,13 @@ body {
   width: 60px;
   height: 60px;
   border-radius: 12px;
-  background: linear-gradient(135deg,#06b6d4,#3b82f6);
   display:inline-flex;
   align-items:center;
   justify-content:center;
   box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  object-fit: contain;
+  padding: 4px;
+  background: rgba(255,255,255,0.05);
 }
 
 .title {
@@ -206,14 +208,18 @@ body {
   width: 44px;
   height: 44px;
   border-radius: 10px;
-  background: linear-gradient(135deg,#06b6d4,#3b82f6);
-  color: white;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
+  object-fit: contain;
   box-shadow: 0 8px 18px rgba(2,6,23,0.45);
   pointer-events: none;
+  padding: 4px;
+  background: rgba(255,255,255,0.05);
+}
+
+.sticker-preview .qr-logo img {
+  width: 34px;
+  height: 34px;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
 /* QR window frame for QRPage */

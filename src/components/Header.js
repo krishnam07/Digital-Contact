@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import logoImg from "../assets/kd.png";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function Header() {
         aria-label="Go to Digital Contact home"
         style={{ display: 'inline-flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}
       >
-        <div className="logo" aria-hidden>DC</div>
+              <img src={logoImg} alt="Digital Contact Logo" className="logo" />
         <div>
           <div className="title">Digital Contact</div>
           <div className="subtitle">Scan. Connect. Done.</div>

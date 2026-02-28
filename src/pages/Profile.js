@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { QRCodeCanvas } from "qrcode.react";
+import StickerPreview from "../components/StickerPreview";
+import { CallIcon } from "../components/Icon";
 
 function maskNumber(num) {
   if (!num) return "";
@@ -38,14 +39,13 @@ export default function Profile() {
     setEditing(false);
   }
 
-  function downloadQR(size=400){
-    const container = document.getElementById('profile-qr');
-    if (!container) return; const canvas = container.querySelector('canvas');
-    if (!canvas) return alert('QR not ready');
-    const tmp = document.createElement('canvas'); tmp.width=size; tmp.height=size; const ctx=tmp.getContext('2d');
-    ctx.fillStyle='#fff'; ctx.fillRect(0,0,size,size); ctx.drawImage(canvas,0,0,size,size);
-    const a=document.createElement('a'); a.href=tmp.toDataURL('image/png'); a.download=`dc-qr-${size}.png`; a.click();
+  function logout() {
+    // remove current user marker and any token, then navigate to login
+    localStorage.removeItem('dc_current');
+    localStorage.removeItem('dc_token');
+    navigate('/login');
   }
+
 
   if (!user) return null;
 
@@ -56,15 +56,66 @@ export default function Profile() {
         {!editing ? (
           <div>
             <div><strong>{user.name}</strong></div>
-            <div>Contact: {maskNumber(user.phone)}</div>
-            <div>Emergency: {maskNumber(user.emergency)}</div>
+            <div style={{ display:'flex', alignItems:'center', gap:12 }}>
+              <CallIcon style={{ width:18, height:18 }} />
+              <span>
+                Contact: {user.phone ? (
+                  <a href={`tel:${user.phone}`} style={{ color:'inherit', textDecoration:'none' }}>{maskNumber(user.phone)}</a>
+                ) : <span>—</span>}
+              </span>
+              {user.phone && (
+                <button
+                  className="main-btn call-btn"
+                  onClick={()=>window.location.href = `tel:${user.phone}`}
+                  style={{
+                    background:'#28a745',
+                    borderColor:'#28a745',
+                    color:'#fff',
+                    padding:'6px 16px',
+                    fontSize:13,
+                    borderRadius:20,
+                    cursor:'pointer',
+                    boxShadow:'0 2px 6px rgba(0,0,0,0.15)'
+                  }}
+                >
+                  Call me
+                </button>
+              )}
+            </div>
+            <div style={{ display:'flex', alignItems:'center', gap:12, marginTop:8 }}>
+              <CallIcon style={{ width:18, height:18 }} />
+              <span>
+                Emergency: {user.emergency ? (
+                  <a href={`tel:${user.emergency}`} style={{ color:'inherit', textDecoration:'none' }}>{maskNumber(user.emergency)}</a>
+                ) : <span>—</span>}
+              </span>
+              {user.emergency && (
+                <button
+                  className="main-btn call-btn"
+                  onClick={()=>window.location.href = `tel:${user.emergency}`}
+                  style={{
+                    background:'#28a745',
+                    borderColor:'#28a745',
+                    color:'#fff',
+                    padding:'6px 16px',
+                    fontSize:13,
+                    borderRadius:20,
+                    cursor:'pointer',
+                    boxShadow:'0 2px 6px rgba(0,0,0,0.15)'
+                  }}
+                >
+                  Call me
+                </button>
+              )}
+            </div>
             <div>Emergency Access: {user.allowEmergency ? 'Allowed' : 'Not allowed'}</div>
             <div style={{ marginTop: 12 }}>
-              <button className="main-btn login-btn" onClick={()=>setEditing(true)}>Edit</button>
-              <button className="main-btn register-btn" onClick={()=>downloadQR(600)} style={{ marginLeft: 8 }}>Download QR</button>
+              <button type="button" className="main-btn login-btn" onClick={()=>setEditing(true)}>Edit</button>
+              <button type="button" className="main-btn register-btn" onClick={()=>navigate('/download', { state: { uuid: user.uuid } })} style={{ marginLeft: 8 }}>Download QR</button>
+              <button type="button" className="main-btn" onClick={logout} style={{ marginLeft: 8, background:'#f55', borderColor:'#f55' }}>Logout</button>
             </div>
-            <div id="profile-qr" style={{ display: 'inline-block', marginTop: 18, padding:12, background: 'white', borderRadius: 8 }}>
-              <QRCodeCanvas value={JSON.stringify({ uuid: user.uuid })} size={220} />
+            <div style={{ marginTop: 18, textAlign: 'center' }}>
+              <StickerPreview uuid={user.uuid} minimal={true} size={220} id="profile-qr" onClick={()=>navigate('/download', { state: { uuid: user.uuid } })} />
             </div>
           </div>
         ) : (
@@ -95,8 +146,8 @@ export default function Profile() {
             </div>
 
             <div style={{ marginTop:12 }}>
-              <button className='main-btn login-btn' onClick={save}>Save</button>
-              <button className='main-btn register-btn' onClick={()=>setEditing(false)} style={{ marginLeft:8 }}>Cancel</button>
+              <button type="button" className='main-btn login-btn' onClick={save}>Save</button>
+              <button type="button" className='main-btn register-btn' onClick={()=>setEditing(false)} style={{ marginLeft:8 }}>Cancel</button>
             </div>
           </div>
         )}

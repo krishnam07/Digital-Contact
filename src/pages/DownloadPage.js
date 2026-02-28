@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import StickerPreview from '../components/StickerPreview';
+import eagleLogoPath from '../assets/kd.png';
 
 export default function DownloadPage(){
   const { state } = useLocation();
@@ -64,13 +65,23 @@ export default function DownloadPage(){
     const imgY = padding;
     ctx.drawImage(img, imgX, imgY);
 
-    // small logo centered over QR
+   // small logo centered over QR
     const logoSize = Math.min(48, Math.round(img.width * 0.18));
     const logoX = finalW/2 - logoSize/2;
     const logoY = imgY + img.height/2 - logoSize/2;
-    ctx.fillStyle = '#06b6d4'; ctx.fillRect(logoX, logoY, logoSize, logoSize);
-    ctx.fillStyle = '#fff'; ctx.font = `${Math.floor(logoSize*0.48)}px Poppins, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('DC', finalW/2, logoY + logoSize/2 + 1);
+    
+    // Load and draw eagle logo
+    const logoImg = new Image();
+    logoImg.crossOrigin = 'anonymous';
+    logoImg.src = eagleLogoPath;
+    await new Promise(res => { logoImg.onload = res; logoImg.onerror = res; });
+    
+    // Draw semi-transparent background for logo
+    ctx.fillStyle = 'rgba(6, 182, 212, 0.15)';
+    ctx.fillRect(logoX - 2, logoY - 2, logoSize + 4, logoSize + 4);
+    
+    // Draw the eagle logo
+    ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize);
 
     // tagline
     if(tagline){
